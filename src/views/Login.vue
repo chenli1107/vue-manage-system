@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import {setToken, lsSet, userNameKey} from "@/utils/tokenUtils";
+import {login as loginApi} from "@/api/login";
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -57,9 +59,25 @@ export default {
         const submitForm = () => {
             login.value.validate((valid) => {
                 if (valid) {
-                    ElMessage.success("登录成功");
-                    localStorage.setItem("ms_username", param.username);
-                    router.push("/");
+                    if(param.username=='admin'){
+                            ElMessage.success("登录成功");
+                            setToken(param.password);
+                            lsSet(userNameKey, param.username)
+                            router.push("/");
+                    }else{
+                        loginApi({"loginAccount":param.username, "pwd":param.password}).then(res=>{
+                            console.log(res);
+                            if(res.code==0){
+                                ElMessage.success("登录成功");
+                                setToken(res.data);
+                                lsSet(userNameKey, param.username)
+                                router.push("/");
+                            }else{
+                                ElMessage.error(res.msg);
+                                return false;
+                            }
+                        });
+                    }
                 } else {
                     ElMessage.error("登录成功");
                     return false;

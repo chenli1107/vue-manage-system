@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import {lsGet, userNameKey} from "@/utils/tokenUtils";
 import { reactive, ref } from "vue";
 import VueCropper from "vue-cropperjs";
 import "cropperjs/dist/cropper.css";
@@ -72,7 +73,7 @@ export default {
         VueCropper,
     },
     setup() {
-        const name = localStorage.getItem("ms_username");
+        const name = lsGet(userNameKey);
         const form = reactive({
             old: "",
             new: "",

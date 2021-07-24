@@ -109,6 +109,21 @@ export default {
                 ],
             },
             {
+                icon: "el-icon-lx-warn",
+                index: "8",
+                title: "用户权限管理",
+                subs: [
+                    {
+                        index: "menuManage",
+                        title: "菜单按钮管理"
+                    },
+                    {
+                        index: "roleManage",
+                        title: "角色管理"
+                    }
+                ]
+            },
+            {
                 icon: "el-icon-lx-redpacket_fill",
                 index: "/donate",
                 title: "支持作者",

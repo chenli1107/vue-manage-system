@@ -116,12 +116,14 @@
 
 <script>
 import Schart from "vue-schart";
+
+import {lsGet, userNameKey} from "@/utils/tokenUtils";
 import { reactive } from "vue";
 export default {
     name: "dashboard",
     components: { Schart },
     setup() {
-        const name = localStorage.getItem("ms_username");
+        const name = lsGet(userNameKey);
         const role = name === "admin" ? "超级管理员" : "普通用户";
 
         const data = reactive([

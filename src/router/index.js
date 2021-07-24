@@ -1,5 +1,6 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 import Home from "../views/Home.vue";
+import { getToken, userNameKey, lsGet } from "@/utils/tokenUtils";
 
 const routes = [
     {
@@ -96,6 +97,13 @@ const routes = [
                 },
                 component: () => import (/* webpackChunkName: "403" */ '../views/403.vue')
             }, {
+                path: '/menuManage',
+                name: 'menuManage',
+                meta: {
+                    title: '菜单按钮管理'
+                },
+                component: () => import ('../views/role/menu/menuTree.vue')
+            }, {
                 path: '/user',
                 name: 'user',
                 meta: {
@@ -128,12 +136,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
-    const role = localStorage.getItem('ms_username');
-    if (!role && to.path !== '/login') {
+    const userToken = getToken();
+    if (!userToken && to.path !== '/login') {
         next('/login');
     } else if (to.meta.permission) {
         // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
-        role === 'admin'
+        lsGet(userNameKey) === 'admin'
             ? next()
             : next('/403');
     } else {
